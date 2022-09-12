@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Navbar from './Components/Navbar'
+import { useState, useEffect } from 'react'
+import Main from'./Components/Main'
+import AdvancedStatistics from './Components/AdvancedStatistics'
+import Boost from './Components/Boost'
+import Footer from './Components/Footer'
 
 function App() {
+
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  function handleWindowSizeChange() {
+      setScreenWidth(window.innerWidth);
+  }
+  useEffect(() => {
+      window.addEventListener('resize', handleWindowSizeChange);
+      return () => {
+          window.removeEventListener('resize', handleWindowSizeChange);
+      }
+  }, []);
+
+  const isMobile = screenWidth <= 768;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar isMobile={isMobile}/>
+      <Main />
+      <AdvancedStatistics />
+      <Boost />
+      <Footer />
     </div>
   );
 }
