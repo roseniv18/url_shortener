@@ -6,36 +6,52 @@ import ShortenedURLS from './ShortenedURLS'
 import { nanoid } from 'nanoid'
 
 function ShortenURL(isMobile) {
+  const img = isMobile === true ? bg_shorten_mobile : bg_shorten_desktop
 
-    const img = isMobile === true ? bg_shorten_mobile : bg_shorten_desktop
+  const [url, setUrl] = useState('')
+  const [short_url_arr, setShortUrlArr] = useState([])
+  const [error, setError] = useState('')
 
-    const [url, setUrl] = useState('')
-    const [short_url_arr, setShortUrlArr] = useState([])
+  const handleChange = (event) => {
+    setUrl(event.target.value)
+  }
 
-    const handleChange = (event) => {
-      setUrl(event.target.value)
-    }
+  const getShortenedUrl = async (url) => {
+    // If URL is not empty
+    if(url !== '') {
 
-    const getShortenedUrl = async (url) => {
-      if(url !== '') {
-
-        await getShortCode(url).then(data => {
+      await getShortCode(url).then(data => {
+          
+        if(data.error) {
+          setError(data.error)
+          return 
+          
+        // If no error is returned
+        } else {
+          // Reset the error
+          setError('')
           setShortUrlArr(arr => { 
-            
             return [
               ...arr, 
                 {
-                  short: data, 
+                  short: data.result.full_short_link, 
                   long: url
                 }
-          ]
-
+            ]
           })
-        })
+        }
+      })
+    } 
+    // If URL is empty
+    if(url === '') {
+      setError('No URL entered')
+    }
+}
 
-      } else {
-        alert('No URL entered')
-      }
+    // Clear the input field and the short_url_arr array
+    const clear = () => {
+      setShortUrlArr('')
+      setUrl('')
     }
 
   return (
@@ -52,16 +68,29 @@ function ShortenURL(isMobile) {
                 placeholder='Shorten a link here...' 
                 name="url"
                 id="url"
+                value={url}
                 onChange={handleChange}/>
 
         <button className='text-white bg-teal-500 h-10 lg:px-6 sm:px-3 py-2 rounded-md hover:bg-teal-300 cursor-pointer sm:w-full md:w-1/2 lg:w-auto' 
                 onClick = {() => getShortenedUrl(url)}>Shorten it!</button>
-        </div>
+
+        <p className='text-white cursor-pointer' onClick = {clear}>Clear</p>
 
         
-        {short_url_arr.map(s => {
-            return <ShortenedURLS short_url = {s} key = {nanoid()}/>
-        })}
+        </div>
+        <p className='text-red-500'>{error}</p>
+        
+        {/* Check if the short_url_arr is empty/cleared */}
+        {short_url_arr.length !== 0 
+        
+          ? 
+
+          short_url_arr.map(s => {
+              return <ShortenedURLS short_url = {s} key = {nanoid()}/>
+          })                        
+          
+          : ''
+        }
 
     </div>
     
