@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import bg_shorten_desktop from '../images/bg-shorten-desktop.svg'
 import bg_shorten_mobile from '../images/bg-shorten-mobile.svg'
 import getShortCode from '../services/shrtco'
