@@ -78,7 +78,7 @@ function ShortenURL(isMobile) {
     // Clear the input field and the short_url_arr array
     const clear = () => {
       urlRef.current.value = ""
-      setUrls("")
+      setUrls([])
       setAlert({
         ok: true,
         show: true,
