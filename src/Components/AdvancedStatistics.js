@@ -3,24 +3,8 @@ import brand_recognition from "../images/icon-brand-recognition.svg"
 import detailed_records from "../images/icon-detailed-records.svg"
 import fully_customizable from "../images/icon-fully-customizable.svg"
 import ShortenURL from "./ShortenURL"
-import { useState, useEffect } from "react"
 
-function AdvancedStatistics() {
-    const [screenWidth, setScreenWidth] = useState(window.innerWidth)
-
-    function handleWindowSizeChange() {
-        setScreenWidth(window.innerWidth)
-    }
-
-    useEffect(() => {
-        window.addEventListener("resize", handleWindowSizeChange)
-        return () => {
-            window.removeEventListener("resize", handleWindowSizeChange)
-        }
-    }, [])
-
-    const isMobile = screenWidth <= 768
-
+function AdvancedStatistics({ isMobile }) {
     return (
         <section className="flex flex-col items-center justify-center bg-gray-200 w-full lg:px-32 md:px-16 sm:px-6 pb-32 relative">
             <ShortenURL isMobile={isMobile} />

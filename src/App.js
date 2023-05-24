@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import Navbar from "./Components/Navbar"
 import Main from "./Components/Main"
 import AdvancedStatistics from "./Components/AdvancedStatistics"
@@ -11,6 +11,7 @@ function App() {
     function handleWindowSizeChange() {
         setScreenWidth(window.innerWidth)
     }
+
     useEffect(() => {
         window.addEventListener("resize", handleWindowSizeChange)
         return () => {
@@ -24,7 +25,7 @@ function App() {
         <div>
             <Navbar isMobile={isMobile} />
             <Main />
-            <AdvancedStatistics />
+            <AdvancedStatistics isMobile={isMobile} />
             <Boost />
             <Footer />
         </div>
